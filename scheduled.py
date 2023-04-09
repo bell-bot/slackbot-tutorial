@@ -13,7 +13,7 @@ def sendMessage(slack_client, msg):
   # check if the request was a success
   try:
     slack_client.chat_postMessage(
-      channel='#test',
+      channel='#slackbot-test-channel',
       text=msg
     )#.get()
   except SlackApiError as e:

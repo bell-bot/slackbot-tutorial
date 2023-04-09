@@ -3,6 +3,7 @@ import json
 import logging
 
 from flask import Flask, request, make_response, Response
+from flask_ngrok import run_with_ngrok
 
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
@@ -12,8 +13,9 @@ from slashCommand import Slash
 
 logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
+run_with_ngrok(app)
 
-@app.route("/slack/test", methods=["POST"])
+@app.route("/slack/clickbait", methods=["POST"])
 def command():
   if not verifier.is_valid_request(request.get_data(), request.headers):
     return make_response("invalid request", 403)
@@ -46,11 +48,12 @@ def command():
 
 # Start the Flask server
 if __name__ == "__main__":
+
   SLACK_BOT_TOKEN = os.environ['SLACK_BOT_TOKEN']
   SLACK_SIGNATURE = os.environ['SLACK_SIGNATURE']
   slack_client = WebClient(SLACK_BOT_TOKEN)
   verifier = SignatureVerifier(SLACK_SIGNATURE)
 
-  commander = Slash("Hey there! It works.")
+  commander = Slash("Breaking news!")
 
   app.run()
